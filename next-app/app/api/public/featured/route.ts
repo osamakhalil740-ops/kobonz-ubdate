@@ -2,6 +2,8 @@ import { NextRequest } from "next/server"
 import { prisma } from "@/lib/prisma"
 import { errorResponse, successResponse } from "@/lib/api-utils"
 
+export const dynamic = 'force-dynamic'
+
 // GET /api/public/featured - Get featured coupons for homepage
 export async function GET(request: NextRequest) {
   try {
@@ -101,3 +103,4 @@ export async function GET(request: NextRequest) {
     return errorResponse("Failed to fetch featured content", 500)
   }
 }
+

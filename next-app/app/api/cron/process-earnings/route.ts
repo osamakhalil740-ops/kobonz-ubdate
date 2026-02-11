@@ -3,6 +3,8 @@ import { prisma } from "@/lib/prisma"
 import { errorResponse, successResponse } from "@/lib/api-utils"
 import { shouldReleaseEarning } from "@/lib/affiliate-utils"
 
+export const dynamic = 'force-dynamic'
+
 // GET /api/cron/process-earnings - Process pending earnings (30-day release)
 // This should be called by a cron job daily
 export async function GET(request: NextRequest) {
@@ -75,3 +77,4 @@ export async function GET(request: NextRequest) {
     return errorResponse("Failed to process earnings", 500)
   }
 }
+

@@ -4,6 +4,8 @@ import { getPaginationParams, createPaginatedResponse, errorResponse } from "@/l
 import { CouponStatus } from "@prisma/client"
 import { prepareSearchQuery, createSearchText, normalizeArabic, containsArabic } from "@/lib/search-utils"
 
+export const dynamic = 'force-dynamic'
+
 // GET /api/public/coupons - Public coupon listing with search and filters
 export async function GET(request: NextRequest) {
   try {
@@ -142,3 +144,4 @@ export async function GET(request: NextRequest) {
     return errorResponse("Failed to fetch coupons", 500)
   }
 }
+

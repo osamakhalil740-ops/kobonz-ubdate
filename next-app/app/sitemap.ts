@@ -1,6 +1,8 @@
 import { MetadataRoute } from "next"
 import { prisma } from "@/lib/prisma"
 
+export const dynamic = 'force-dynamic'
+
 /**
  * Phase 7: Dynamic Sitemap Generation
  * Automatically generates sitemap with all public pages
@@ -95,3 +97,4 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   return [...staticPages, ...couponPages, ...storePages]
 }
+

@@ -3,6 +3,8 @@ import { prisma } from "@/lib/prisma"
 import { getPaginationParams, createPaginatedResponse, errorResponse } from "@/lib/api-utils"
 import { normalizeArabic, containsArabic } from "@/lib/search-utils"
 
+export const dynamic = 'force-dynamic'
+
 // GET /api/public/stores - Public store listing with search and filters
 export async function GET(request: NextRequest) {
   try {
@@ -93,3 +95,4 @@ export async function GET(request: NextRequest) {
     return errorResponse("Failed to fetch stores", 500)
   }
 }
+
