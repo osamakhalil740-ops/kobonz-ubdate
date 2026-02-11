@@ -1,0 +1,166 @@
+name: Promote Staging to Production
+
+on:
+  workflow_dispatch:
+    inputs:
+      skip_tests:
+        description: 'Skip tests (use with caution)'
+        required: false
+        type: boolean
+        default: false
+      migration_required:
+        description: 'Database migration required'
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  validation:
+    name: Validate Staging
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout staging branch
+        uses: actions/checkout@v4
+        with:
+          ref: staging
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: next-app/package-lock.json
+
+      - name: Install dependencies
+        working-directory: next-app
+        run: npm ci
+
+      - name: Run linter
+        working-directory: next-app
+        run: npm run lint
+
+      - name: Type check
+        working-directory: next-app
+        run: npx tsc --noEmit
+
+      - name: Build check
+        working-directory: next-app
+        run: npm run build
+        env:
+          SKIP_ENV_VALIDATION: '1'
+          DATABASE_URL: 'postgresql://test:test@localhost:5432/test'
+
+      - name: Run tests
+        if: ${{ !inputs.skip_tests }}
+        working-directory: next-app
+        run: npm test
+        continue-on-error: false
+
+      - name: Health check staging
+        run: |
+          response=$(curl -s -o /dev/null -w "%{http_code}" https://staging.kobonz.com/api/health)
+          if [ $response -ne 200 ]; then
+            echo "❌ Staging health check failed (HTTP $response)"
+            exit 1
+          fi
+          echo "✅ Staging is healthy"
+
+  database-migration-check:
+    name: Check Database Migrations
+    runs-on: ubuntu-latest
+    if: ${{ inputs.migration_required }}
+    needs: validation
+    
+    steps:
+      - name: Checkout staging
+        uses: actions/checkout@v4
+        with:
+          ref: staging
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        working-directory: next-app
+        run: npm ci
+
+      - name: Check migration status
+        working-directory: next-app
+        run: |
+          echo "⚠️  Database migration is required"
+          echo "Please ensure migrations are tested on staging first"
+          npx prisma migrate diff \
+            --from-schema-datasource prisma/schema.prisma \
+            --to-schema-datasource prisma/schema.prisma \
+            --script || true
+
+  create-release-pr:
+    name: Create Release PR
+    runs-on: ubuntu-latest
+    needs: [validation]
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: staging
+          base: main
+          title: '🚀 Release: Promote Staging to Production'
+          body: |
+            ## Release Checklist
+            
+            This PR promotes staging to production.
+            
+            ### Pre-deployment
+            - [x] All tests passing on staging
+            - [x] Staging health check passed
+            - [ ] Database migrations reviewed
+            - [ ] Security audit passed
+            - [ ] Performance metrics acceptable
+            
+            ### Deployment
+            - [ ] Backup production database
+            - [ ] Run database migrations (if needed)
+            - [ ] Deploy to production
+            - [ ] Smoke tests passed
+            - [ ] Monitoring alerts configured
+            
+            ### Post-deployment
+            - [ ] Verify production health
+            - [ ] Check error rates in Sentry
+            - [ ] Verify critical user flows
+            - [ ] Update changelog
+            
+            **Migration Required:** ${{ inputs.migration_required }}
+            **Tests Skipped:** ${{ inputs.skip_tests }}
+            
+            ---
+            
+            **Staging URL:** https://staging.kobonz.com
+            **Production URL:** https://kobonz.com
+            
+            Merge this PR to trigger production deployment.
+          labels: |
+            release
+            production
+            staging-promotion
+
+  notify:
+    name: Notify Team
+    runs-on: ubuntu-latest
+    needs: create-release-pr
+    
+    steps:
+      - name: Send notification
+        run: |
+          echo "📢 Release PR created for staging → production promotion"
+          echo "Review and merge to deploy to production"

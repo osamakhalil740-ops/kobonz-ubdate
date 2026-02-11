@@ -1,0 +1,750 @@
+/* ========================================
+   INTERACTIVE FEATURES
+   Social Proof, Gamification, Personalization
+   ======================================== */
+
+/* ========================================
+   1. LIVE ACTIVITY FEED
+   ======================================== */
+
+.live-activity-feed {
+  position: fixed;
+  bottom: 2rem;
+  left: 2rem;
+  width: 350px;
+  max-height: 400px;
+  background: white;
+  border-radius: 1rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  z-index: 950;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.live-activity-feed.minimized {
+  max-height: 60px;
+}
+
+.activity-header {
+  padding: 1rem 1.25rem;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.activity-title {
+  font-weight: 700;
+  font-size: 0.9375rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.activity-pulse {
+  width: 8px;
+  height: 8px;
+  background: #22c55e;
+  border-radius: 50%;
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.3);
+  }
+}
+
+.activity-toggle {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.activity-toggle:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.activity-list {
+  max-height: 340px;
+  overflow-y: auto;
+  padding: 0.5rem;
+}
+
+.activity-item {
+  padding: 0.875rem;
+  border-radius: 0.75rem;
+  margin-bottom: 0.5rem;
+  background: #fafafa;
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  animation: slide-in-activity 0.4s ease-out;
+  transition: all 0.2s;
+}
+
+.activity-item:hover {
+  background: #f5f5f5;
+  transform: translateX(4px);
+}
+
+@keyframes slide-in-activity {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.activity-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+  font-size: 0.875rem;
+  flex-shrink: 0;
+}
+
+.activity-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.activity-text {
+  font-size: 0.875rem;
+  color: #404040;
+  margin-bottom: 0.25rem;
+  line-height: 1.4;
+}
+
+.activity-text strong {
+  color: #171717;
+  font-weight: 600;
+}
+
+.activity-text .highlight {
+  color: #bf0000;
+  font-weight: 600;
+}
+
+.activity-time {
+  font-size: 0.75rem;
+  color: #a3a3a3;
+}
+
+/* ========================================
+   2. ACHIEVEMENT BADGES
+   ======================================== */
+
+.badge-showcase {
+  background: white;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.badge-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.achievement-badge {
+  position: relative;
+  aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  border-radius: 1rem;
+  background: linear-gradient(135deg, #fafafa, #ffffff);
+  border: 2px solid #e5e5e5;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.achievement-badge:hover {
+  transform: translateY(-4px) scale(1.05);
+  border-color: #bf0000;
+  box-shadow: 0 8px 24px rgba(191, 0, 0, 0.2);
+}
+
+.achievement-badge.unlocked {
+  background: linear-gradient(135deg, #fff5f5, #ffffff);
+  border-color: #bf0000;
+}
+
+.achievement-badge.locked {
+  opacity: 0.4;
+  filter: grayscale(100%);
+}
+
+.badge-icon {
+  font-size: 2.5rem;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.badge-name {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-align: center;
+  color: #404040;
+}
+
+.badge-unlock-effect {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  border-radius: 1rem;
+  background: radial-gradient(circle, rgba(191, 0, 0, 0.3) 0%, transparent 70%);
+  animation: badge-unlock 1s ease-out;
+  pointer-events: none;
+}
+
+@keyframes badge-unlock {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(0.5);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(2);
+  }
+}
+
+/* Badge Tooltip */
+.badge-tooltip {
+  position: absolute;
+  bottom: calc(100% + 0.5rem);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #171717;
+  color: white;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.2s;
+  z-index: 100;
+}
+
+.achievement-badge:hover .badge-tooltip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-4px);
+}
+
+/* ========================================
+   3. LEADERBOARD
+   ======================================== */
+
+.leaderboard-container {
+  background: white;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.leaderboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #f5f5f5;
+}
+
+.leaderboard-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  font-family: 'Poppins', sans-serif;
+  color: #171717;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.leaderboard-period {
+  display: flex;
+  gap: 0.5rem;
+  background: #f5f5f5;
+  padding: 0.25rem;
+  border-radius: 0.5rem;
+}
+
+.period-btn {
+  padding: 0.5rem 1rem;
+  background: transparent;
+  border: none;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #737373;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.period-btn:hover {
+  color: #404040;
+}
+
+.period-btn.active {
+  background: white;
+  color: #bf0000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+.leaderboard-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.leaderboard-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  border-radius: 0.75rem;
+  background: #fafafa;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: fade-in-up 0.4s ease-out;
+  animation-fill-mode: both;
+}
+
+.leaderboard-item:nth-child(1) {
+  animation-delay: 0.05s;
+}
+
+.leaderboard-item:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.leaderboard-item:nth-child(3) {
+  animation-delay: 0.15s;
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.leaderboard-item:hover {
+  background: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transform: translateX(4px);
+}
+
+.leaderboard-item.top-1 {
+  background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+  border: 2px solid #f59e0b;
+}
+
+.leaderboard-item.top-2 {
+  background: linear-gradient(135deg, #c0c0c0 0%, #d4d4d4 100%);
+  border: 2px solid #9ca3af;
+}
+
+.leaderboard-item.top-3 {
+  background: linear-gradient(135deg, #cd7f32 0%, #d4a574 100%);
+  border: 2px solid #92400e;
+}
+
+.leaderboard-rank {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: white;
+  font-weight: 700;
+  font-size: 1rem;
+  color: #404040;
+  flex-shrink: 0;
+}
+
+.leaderboard-item.top-1 .leaderboard-rank,
+.leaderboard-item.top-2 .leaderboard-rank,
+.leaderboard-item.top-3 .leaderboard-rank {
+  background: rgba(255, 255, 255, 0.9);
+  font-size: 1.25rem;
+}
+
+.leaderboard-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+  font-size: 1.125rem;
+  border: 3px solid white;
+  flex-shrink: 0;
+}
+
+.leaderboard-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.leaderboard-name {
+  font-weight: 600;
+  color: #171717;
+  margin-bottom: 0.25rem;
+  font-size: 0.9375rem;
+}
+
+.leaderboard-stats {
+  font-size: 0.8125rem;
+  color: #737373;
+}
+
+.leaderboard-score {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #bf0000;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* ========================================
+   4. PROGRESS BARS & STREAKS
+   ======================================== */
+
+.progress-card {
+  background: white;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.progress-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.progress-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #171717;
+}
+
+.progress-value {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #bf0000;
+}
+
+.progress-bar-container {
+  width: 100%;
+  height: 12px;
+  background: #f5f5f5;
+  border-radius: 9999px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #bf0000, #ff4444);
+  border-radius: 9999px;
+  transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-bar-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  animation: progress-shine 2s ease-in-out infinite;
+}
+
+@keyframes progress-shine {
+  100% {
+    left: 200%;
+  }
+}
+
+/* Streak Counter */
+.streak-counter {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  background: linear-gradient(135deg, #ff9a00, #ff6b00);
+  color: white;
+  border-radius: 9999px;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(255, 107, 0, 0.3);
+  animation: streak-pulse 2s ease-in-out infinite;
+}
+
+@keyframes streak-pulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 4px 12px rgba(255, 107, 0, 0.3);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 6px 16px rgba(255, 107, 0, 0.4);
+  }
+}
+
+.streak-icon {
+  font-size: 1.5rem;
+  animation: flame-flicker 1.5s ease-in-out infinite;
+}
+
+@keyframes flame-flicker {
+  0%, 100% {
+    transform: scale(1) rotate(0deg);
+  }
+  25% {
+    transform: scale(1.1) rotate(-5deg);
+  }
+  75% {
+    transform: scale(1.1) rotate(5deg);
+  }
+}
+
+/* ========================================
+   5. FAVORITES & WISHLIST
+   ======================================== */
+
+.favorite-button {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: white;
+  border: 2px solid #e5e5e5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.favorite-button:hover {
+  border-color: #bf0000;
+  transform: scale(1.1);
+}
+
+.favorite-button.active {
+  background: #bf0000;
+  border-color: #bf0000;
+  animation: heart-beat 0.6s ease-out;
+}
+
+.favorite-button.active .heart-icon {
+  color: white;
+}
+
+@keyframes heart-beat {
+  0% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.3);
+  }
+  50% {
+    transform: scale(1);
+  }
+  75% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.heart-icon {
+  font-size: 1.25rem;
+  color: #d4d4d4;
+  transition: color 0.3s;
+}
+
+.favorite-button:hover .heart-icon {
+  color: #bf0000;
+}
+
+/* Favorite particles effect */
+.favorite-particles {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: #bf0000;
+  border-radius: 50%;
+  animation: particle-burst 0.8s ease-out;
+  opacity: 0;
+}
+
+@keyframes particle-burst {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--tx), var(--ty)) scale(0);
+  }
+}
+
+/* ========================================
+   6. NOTIFICATION BELL
+   ======================================== */
+
+.notification-bell {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: white;
+  border: 2px solid #e5e5e5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.notification-bell:hover {
+  border-color: #bf0000;
+  background: #fafafa;
+}
+
+.notification-bell.has-notifications {
+  animation: bell-ring 2s ease-in-out infinite;
+}
+
+@keyframes bell-ring {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  10%, 30% {
+    transform: rotate(-10deg);
+  }
+  20%, 40% {
+    transform: rotate(10deg);
+  }
+  50% {
+    transform: rotate(0deg);
+  }
+}
+
+.notification-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 0.375rem;
+  background: #bf0000;
+  color: white;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid white;
+  animation: badge-pop 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes badge-pop {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* ========================================
+   7. RESPONSIVE ADJUSTMENTS
+   ======================================== */
+
+@media (max-width: 768px) {
+  .live-activity-feed {
+    bottom: 1rem;
+    left: 1rem;
+    right: 1rem;
+    width: auto;
+  }
+  
+  .badge-grid {
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  }
+  
+  .leaderboard-item {
+    padding: 0.875rem;
+  }
+  
+  .leaderboard-avatar {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+}

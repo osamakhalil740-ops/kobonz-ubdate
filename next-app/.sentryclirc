@@ -1,0 +1,8 @@
+# Phase 9: Sentry CLI Configuration
+
+[defaults]
+org=your-sentry-org
+project=kobonz-next
+
+[auth]
+token=your-sentry-auth-token

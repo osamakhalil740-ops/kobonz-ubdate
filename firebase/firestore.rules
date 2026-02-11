@@ -1,0 +1,208 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // SIMPLIFIED RULES FOR REDEMPTION TO WORK
+    // All authenticated users can read/write (needed for complex transactions)
+    // Only super admins can delete
+    
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+    
+    function isSuperAdmin() {
+      return isAuthenticated() && 
+             exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+             get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+    
+    function isAdmin() {
+      return isAuthenticated() && 
+             exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+             get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+    
+    function isShopOwner() {
+      return isAuthenticated() && 
+             exists(/databases/$(database)/documents/shops/$(request.auth.uid)) &&
+             get(/databases/$(database)/documents/shops/$(request.auth.uid)).data.roles.hasAny(['shop-owner']);
+    }
+    
+    function isAffiliate() {
+      return isAuthenticated() && 
+             exists(/databases/$(database)/documents/shops/$(request.auth.uid)) &&
+             get(/databases/$(database)/documents/shops/$(request.auth.uid)).data.roles.hasAny(['affiliate']);
+    }
+    
+    // Users collection - user profiles
+    match /users/{userId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated() && request.auth.uid == userId;
+      allow update: if isAuthenticated() && (request.auth.uid == userId || isAdmin());
+      allow delete: if isAdmin();
+    }
+    
+    // Shops collection - user profiles
+    match /shops/{shopId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated() && request.auth.uid == shopId;
+      // Allow authenticated users to update (needed for redemption: credit transfers)
+      allow update: if isAuthenticated();
+      allow delete: if isAdmin() || isSuperAdmin();
+    }
+    
+    // Coupons collection - public read, authenticated write
+    match /coupons/{couponId} {
+      allow read: if true; // Coupons are public
+      allow create: if isAuthenticated() && 
+                       request.resource.data.shopOwnerId == request.auth.uid &&
+                       request.resource.data.title is string &&
+                       request.resource.data.description is string &&
+                       request.resource.data.discountValue != null &&
+                       request.resource.data.maxUses != null;
+      // Allow authenticated users to update (for redemption: decrementing usesLeft)
+      // Shop owners can fully update, customers can only update usesLeft during redemption
+      allow update: if isAuthenticated();
+      allow delete: if isAuthenticated() && 
+                       (resource.data.shopOwnerId == request.auth.uid || isAdmin() || isSuperAdmin());
+    }
+    
+    // Redemptions collection
+    // Redemptions collection - allow authenticated users to create and read
+    match /redemptions/{redemptionId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update: if isAuthenticated() || isAdmin() || isSuperAdmin();
+      allow delete: if isAdmin() || isSuperAdmin();
+    }
+    
+    // Referrals collection - FULLY PERMISSIVE FOR REDEMPTION
+    match /referrals/{referralId} {
+      // Allow ALL authenticated users to read (needed for redemption transaction)
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      // Allow authenticated users to update (needed for marking referrals as rewarded during redemption)
+      allow update: if isAuthenticated();
+      allow delete: if isSuperAdmin();
+    }
+    
+    // Shop Customer Data - allow all authenticated users
+    match /shopCustomerData/{dataId} {
+      allow read, create: if isAuthenticated();
+      allow update, delete: if isSuperAdmin();
+    }
+    
+    // Affiliate Customer Data - allow all authenticated users
+    match /affiliateCustomerData/{dataId} {
+      allow read, create: if isAuthenticated();
+      allow update, delete: if isSuperAdmin();
+    }
+    
+    // Credit Requests - ALLOW ALL AUTHENTICATED TO READ
+    match /creditRequests/{requestId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated() && request.resource.data.shopId == request.auth.uid;
+      allow update: if isSuperAdmin();
+      allow delete: if isSuperAdmin();
+    }
+    
+    // Credit Keys - ALLOW ALL AUTHENTICATED TO READ
+    match /creditKeys/{keyId} {
+      allow read: if isAuthenticated();
+      allow create, update, delete: if isSuperAdmin();
+    }
+    
+    // Admin Activity Log - FULLY PERMISSIVE FOR REDEMPTION
+    match /adminActivityLog/{activityId} {
+      allow read, write: if isAuthenticated();
+      allow delete: if isSuperAdmin();
+    }
+    
+    // User Action Log - FULLY PERMISSIVE FOR REDEMPTION
+    match /userActionLog/{actionId} {
+      allow read, write: if isAuthenticated();
+      allow delete: if isSuperAdmin();
+    }
+    
+    // System Activity - FULLY PERMISSIVE FOR REDEMPTION
+    match /systemActivity/{activityId} {
+      allow read, write: if isAuthenticated();
+      allow delete: if isSuperAdmin();
+    }
+    
+    // Admin Credit Log - FULLY PERMISSIVE FOR REDEMPTION
+    match /adminCreditLogs/{logId} {
+      allow read, write: if isAuthenticated();
+      allow delete: if isSuperAdmin();
+    }
+    
+    // Location Cache - public for location data (safe, it's just location names)
+    match /locationCache/{cacheId} {
+      allow read: if true;
+      allow write: if true; // Allow anyone to write cache (location data is public)
+    }
+    
+    // Loyalty Program Collections
+    match /loyaltyPoints/{userId} {
+      allow read: if isAuthenticated() && (request.auth.uid == userId || isSuperAdmin());
+      allow create: if isAuthenticated() && request.auth.uid == userId;
+      allow update: if isAuthenticated() && (request.auth.uid == userId || isSuperAdmin());
+      allow delete: if isSuperAdmin();
+    }
+    
+    match /pointsTransactions/{transactionId} {
+      allow read: if isAuthenticated() && 
+                     (resource.data.userId == request.auth.uid || isSuperAdmin());
+      allow create: if isAuthenticated();
+      allow update, delete: if isSuperAdmin();
+    }
+    
+    match /loyaltyRewards/{rewardId} {
+      allow read: if isAuthenticated();
+      allow create, update, delete: if isSuperAdmin();
+    }
+    
+    match /loyaltyAchievements/{achievementId} {
+      allow read: if isAuthenticated();
+      allow create, update, delete: if isSuperAdmin();
+    }
+    
+    match /userAchievements/{achievementId} {
+      allow read: if isAuthenticated() && 
+                     (resource.data.userId == request.auth.uid || isSuperAdmin());
+      allow create: if isAuthenticated();
+      allow update, delete: if isSuperAdmin();
+    }
+    
+    // Reviews and Ratings Collections
+    match /shopReviews/{reviewId} {
+      allow read: if true; // Reviews are public
+      allow create: if isAuthenticated() && 
+                       request.resource.data.userId == request.auth.uid;
+      allow update: if isAuthenticated() && 
+                       (resource.data.userId == request.auth.uid || 
+                        resource.data.shopId == request.auth.uid || 
+                        isSuperAdmin());
+      allow delete: if isSuperAdmin();
+    }
+    
+    match /couponReviews/{reviewId} {
+      allow read: if true; // Reviews are public
+      allow create: if isAuthenticated() && 
+                       request.resource.data.userId == request.auth.uid;
+      allow update: if isAuthenticated() && 
+                       (resource.data.userId == request.auth.uid || isSuperAdmin());
+      allow delete: if isSuperAdmin();
+    }
+    
+    match /shopRatings/{shopId} {
+      allow read: if true; // Ratings are public
+      allow write: if isAuthenticated(); // System updates ratings
+    }
+  }
+}

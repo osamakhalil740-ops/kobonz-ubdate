@@ -1,0 +1,658 @@
+/* ========================================
+   UX ENHANCEMENTS
+   Sticky Navigation, Enhanced UI Elements
+   ======================================== */
+
+/* ========================================
+   1. STICKY NAVIGATION WITH BLUR
+   ======================================== */
+
+.sticky-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateY(0);
+}
+
+.sticky-nav.scrolled {
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.sticky-nav.hidden {
+  transform: translateY(-100%);
+}
+
+/* Add padding to body when nav is sticky */
+body.has-sticky-nav {
+  padding-top: 80px;
+}
+
+/* Navigation Container */
+.nav-container-enhanced {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+/* ========================================
+   2. MARKETPLACE FILTERS SIDEBAR
+   ======================================== */
+
+.marketplace-container {
+  display: flex;
+  gap: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+.marketplace-filters {
+  width: 280px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 100px;
+  height: fit-content;
+  background: white;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.marketplace-content {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Filter Header */
+.filter-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #f5f5f5;
+}
+
+.filter-title {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #171717;
+  font-family: 'Poppins', sans-serif;
+}
+
+.filter-reset {
+  font-size: 0.875rem;
+  color: #bf0000;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.filter-reset:hover {
+  color: #9a0000;
+  text-decoration: underline;
+}
+
+/* Filter Group */
+.filter-group {
+  margin-bottom: 1.5rem;
+}
+
+.filter-group-title {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #404040;
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Filter Options */
+.filter-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+
+.filter-option {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.filter-option:hover {
+  background: #fafafa;
+}
+
+.filter-option input[type="checkbox"],
+.filter-option input[type="radio"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: #bf0000;
+}
+
+.filter-option label {
+  flex: 1;
+  cursor: pointer;
+  font-size: 0.9375rem;
+  color: #525252;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.filter-option-count {
+  font-size: 0.8125rem;
+  color: #a3a3a3;
+  font-weight: 500;
+}
+
+/* Range Filter */
+.filter-range {
+  padding: 0.75rem 0;
+}
+
+.filter-range input[type="range"] {
+  width: 100%;
+  height: 6px;
+  background: linear-gradient(to right, #bf0000 0%, #bf0000 50%, #e5e5e5 50%, #e5e5e5 100%);
+  border-radius: 3px;
+  outline: none;
+  cursor: pointer;
+  -webkit-appearance: none;
+}
+
+.filter-range input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  background: #bf0000;
+  border: 3px solid white;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(191, 0, 0, 0.3);
+  transition: all 0.2s;
+}
+
+.filter-range input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(191, 0, 0, 0.4);
+}
+
+.filter-range-values {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  color: #737373;
+}
+
+/* Filter Tags */
+.filter-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.filter-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.375rem 0.75rem;
+  background: rgba(191, 0, 0, 0.1);
+  color: #bf0000;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.filter-tag:hover {
+  background: rgba(191, 0, 0, 0.15);
+}
+
+.filter-tag-close {
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(191, 0, 0, 0.2);
+  border-radius: 50%;
+  font-size: 0.75rem;
+  transition: all 0.2s;
+}
+
+.filter-tag-close:hover {
+  background: rgba(191, 0, 0, 0.3);
+}
+
+/* ========================================
+   3. SORT & VIEW OPTIONS
+   ======================================== */
+
+.marketplace-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  background: white;
+  border-radius: 1rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.marketplace-results {
+  font-size: 0.9375rem;
+  color: #525252;
+  font-weight: 500;
+}
+
+.marketplace-results strong {
+  color: #171717;
+  font-weight: 700;
+}
+
+.marketplace-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Sort Dropdown */
+.sort-dropdown {
+  position: relative;
+}
+
+.sort-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  background: white;
+  border: 2px solid #e5e5e5;
+  border-radius: 0.5rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #404040;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.sort-button:hover {
+  border-color: #bf0000;
+  color: #bf0000;
+}
+
+.sort-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  min-width: 200px;
+  background: white;
+  border-radius: 0.75rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  padding: 0.5rem;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 100;
+}
+
+.sort-dropdown.active .sort-dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.sort-option {
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 0.9375rem;
+  color: #525252;
+  cursor: pointer;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.sort-option:hover {
+  background: #fafafa;
+  color: #171717;
+}
+
+.sort-option.active {
+  background: rgba(191, 0, 0, 0.1);
+  color: #bf0000;
+  font-weight: 600;
+}
+
+/* View Toggle */
+.view-toggle {
+  display: flex;
+  background: #f5f5f5;
+  border-radius: 0.5rem;
+  padding: 0.25rem;
+}
+
+.view-button {
+  padding: 0.5rem 0.75rem;
+  background: transparent;
+  border: none;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: #737373;
+}
+
+.view-button:hover {
+  color: #404040;
+}
+
+.view-button.active {
+  background: white;
+  color: #bf0000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+/* ========================================
+   4. SEARCH BAR ENHANCEMENT
+   ======================================== */
+
+.search-bar-enhanced {
+  position: relative;
+  flex: 1;
+  max-width: 500px;
+}
+
+.search-input-enhanced {
+  width: 100%;
+  padding: 0.875rem 1.25rem 0.875rem 3rem;
+  border: 2px solid #e5e5e5;
+  border-radius: 0.75rem;
+  font-size: 0.9375rem;
+  transition: all 0.2s;
+  background: white;
+}
+
+.search-input-enhanced:focus {
+  outline: none;
+  border-color: #bf0000;
+  box-shadow: 0 0 0 4px rgba(191, 0, 0, 0.1);
+}
+
+.search-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #a3a3a3;
+  pointer-events: none;
+}
+
+.search-clear {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #f5f5f5;
+  border: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #737373;
+  transition: all 0.2s;
+}
+
+.search-clear:hover {
+  background: #e5e5e5;
+  color: #bf0000;
+}
+
+/* ========================================
+   5. MOBILE FILTER TOGGLE
+   ======================================== */
+
+.filter-mobile-toggle {
+  display: none;
+  padding: 0.75rem 1.5rem;
+  background: white;
+  border: 2px solid #e5e5e5;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  color: #404040;
+  cursor: pointer;
+  transition: all 0.2s;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.filter-mobile-toggle:hover {
+  border-color: #bf0000;
+  color: #bf0000;
+}
+
+/* Filter Overlay (Mobile) */
+.filter-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.filter-overlay.active {
+  opacity: 1;
+}
+
+/* Mobile Filter Sidebar */
+@media (max-width: 1024px) {
+  .marketplace-container {
+    flex-direction: column;
+  }
+  
+  .marketplace-filters {
+    position: fixed;
+    top: 0;
+    left: -320px;
+    width: 300px;
+    height: 100vh;
+    z-index: 1000;
+    overflow-y: auto;
+    transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 0;
+  }
+  
+  .marketplace-filters.active {
+    left: 0;
+  }
+  
+  .filter-mobile-toggle {
+    display: flex;
+  }
+  
+  .filter-overlay {
+    display: block;
+  }
+}
+
+/* ========================================
+   6. BREADCRUMB NAVIGATION
+   ======================================== */
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 0;
+  font-size: 0.875rem;
+  color: #737373;
+}
+
+.breadcrumb-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.breadcrumb-link {
+  color: #737373;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.breadcrumb-link:hover {
+  color: #bf0000;
+}
+
+.breadcrumb-separator {
+  color: #d4d4d4;
+}
+
+.breadcrumb-current {
+  color: #171717;
+  font-weight: 600;
+}
+
+/* ========================================
+   7. QUICK ACTIONS FLOATING BUTTON
+   ======================================== */
+
+.quick-actions-fab {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 900;
+}
+
+.fab-button {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #bf0000, #9a0000);
+  color: white;
+  border: none;
+  box-shadow: 0 8px 24px rgba(191, 0, 0, 0.4);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fab-button:hover {
+  transform: scale(1.1) rotate(90deg);
+  box-shadow: 0 12px 32px rgba(191, 0, 0, 0.5);
+}
+
+.fab-menu {
+  position: absolute;
+  bottom: 70px;
+  right: 0;
+  background: white;
+  border-radius: 1rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  padding: 0.5rem;
+  min-width: 200px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px) scale(0.9);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.quick-actions-fab.active .fab-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+}
+
+.fab-menu-item {
+  padding: 0.875rem 1rem;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: #525252;
+  text-decoration: none;
+}
+
+.fab-menu-item:hover {
+  background: #fafafa;
+  color: #bf0000;
+}
+
+/* ========================================
+   8. RESPONSIVE ADJUSTMENTS
+   ======================================== */
+
+@media (max-width: 768px) {
+  .marketplace-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+  
+  .marketplace-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .search-bar-enhanced {
+    max-width: 100%;
+  }
+  
+  .sort-button,
+  .view-toggle {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .quick-actions-fab {
+    bottom: 1rem;
+    right: 1rem;
+  }
+  
+  .fab-button {
+    width: 48px;
+    height: 48px;
+  }
+}

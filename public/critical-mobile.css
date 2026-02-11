@@ -1,0 +1,61 @@
+/* Critical Mobile-First CSS - Inlined for instant render on mobile */
+
+/* Disable expensive animations on mobile devices */
+@media (max-width: 768px) {
+  /* Force disable all animations for better mobile performance */
+  .homepage-hero::before,
+  .homepage-hero::after,
+  .homepage-hero-content::before,
+  .homepage-hero-content::after {
+    animation: none !important;
+    opacity: 0.3 !important;
+  }
+  
+  /* Simplify hero animations */
+  .homepage-hero-title,
+  .homepage-hero-subtitle,
+  .homepage-hero-badge,
+  .homepage-hero-buttons {
+    animation: none !important;
+  }
+  
+  /* Disable hover effects on mobile */
+  .homepage-path-card:hover,
+  .homepage-benefit-card:hover,
+  .homepage-coverage-stat:hover {
+    transform: none !important;
+  }
+  
+  /* Remove will-change to reduce memory usage */
+  * {
+    will-change: auto !important;
+  }
+  
+  /* Optimize transforms for GPU */
+  .homepage-hero,
+  .homepage-path-card,
+  .homepage-benefit-card {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+}
+
+/* Reduce animation complexity globally on mobile */
+@media (max-width: 768px) and (prefers-reduced-motion: no-preference) {
+  /* Keep only essential entrance animations, remove continuous ones */
+  .animate-slideInUp,
+  .animate-slideInLeft,
+  .animate-fadeIn,
+  .animate-bounceIn {
+    animation-duration: 0.3s !important;
+    animation-iteration-count: 1 !important;
+  }
+  
+  /* Remove infinite animations */
+  .animate-float,
+  .animate-pulse,
+  .animate-breathe,
+  .floating {
+    animation: none !important;
+  }
+}

@@ -1,0 +1,114 @@
+name: Rollback Production
+
+on:
+  workflow_dispatch:
+    inputs:
+      deployment_id:
+        description: 'Vercel deployment ID to rollback to (leave empty for previous)'
+        required: false
+        type: string
+      reason:
+        description: 'Reason for rollback'
+        required: true
+        type: string
+
+jobs:
+  rollback:
+    name: Rollback Production Deployment
+    runs-on: ubuntu-latest
+    environment:
+      name: production-rollback
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+
+      - name: Get previous deployment
+        id: get-deployment
+        run: |
+          if [ -z "${{ inputs.deployment_id }}" ]; then
+            # Get the last successful production deployment
+            DEPLOYMENT_ID=$(vercel ls --token=${{ secrets.VERCEL_TOKEN }} --scope=${{ secrets.VERCEL_ORG_ID }} --meta gitBranch=main --prod | head -n 2 | tail -n 1 | awk '{print $1}')
+          else
+            DEPLOYMENT_ID="${{ inputs.deployment_id }}"
+          fi
+          echo "deployment_id=$DEPLOYMENT_ID" >> $GITHUB_OUTPUT
+          echo "Rolling back to deployment: $DEPLOYMENT_ID"
+
+      - name: Confirm rollback
+        run: |
+          echo "⚠️  ROLLBACK INITIATED"
+          echo "Deployment ID: ${{ steps.get-deployment.outputs.deployment_id }}"
+          echo "Reason: ${{ inputs.reason }}"
+          echo ""
+          echo "This will revert production to a previous state."
+
+      - name: Promote deployment to production
+        run: |
+          vercel promote ${{ steps.get-deployment.outputs.deployment_id }} \
+            --token=${{ secrets.VERCEL_TOKEN }} \
+            --scope=${{ secrets.VERCEL_ORG_ID }}
+
+      - name: Verify rollback
+        run: |
+          sleep 15
+          response=$(curl -s -o /dev/null -w "%{http_code}" https://kobonz.com/api/health)
+          if [ $response -ne 200 ]; then
+            echo "❌ Rollback verification failed (HTTP $response)"
+            exit 1
+          fi
+          echo "✅ Rollback successful and health check passed"
+
+      - name: Create incident issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `🚨 Production Rollback - ${new Date().toISOString().split('T')[0]}`,
+              body: `## Production Rollback Executed
+              
+              **Reason:** ${{ inputs.reason }}
+              
+              **Deployment ID:** ${{ steps.get-deployment.outputs.deployment_id }}
+              
+              **Triggered by:** @${{ github.actor }}
+              
+              **Time:** ${new Date().toISOString()}
+              
+              ---
+              
+              ### Post-Rollback Actions
+              - [ ] Investigate root cause
+              - [ ] Fix issue in staging
+              - [ ] Test fix thoroughly
+              - [ ] Create new release
+              - [ ] Document incident
+              
+              ### Related Links
+              - [Production URL](https://kobonz.com)
+              - [Staging URL](https://staging.kobonz.com)
+              - [Sentry](https://sentry.io)
+              `,
+              labels: ['incident', 'production', 'rollback']
+            })
+
+      - name: Notify Sentry
+        if: ${{ secrets.SENTRY_AUTH_TOKEN }}
+        run: |
+          curl https://sentry.io/api/0/organizations/${{ secrets.SENTRY_ORG }}/releases/ \
+            -X POST \
+            -H "Authorization: Bearer ${{ secrets.SENTRY_AUTH_TOKEN }}" \
+            -H 'Content-Type: application/json' \
+            -d "{
+              \"version\": \"rollback-${{ github.sha }}\",
+              \"projects\": [\"${{ secrets.SENTRY_PROJECT }}\"],
+              \"refs\": [{
+                \"repository\": \"${{ github.repository }}\",
+                \"commit\": \"${{ github.sha }}\"
+              }]
+            }" || true

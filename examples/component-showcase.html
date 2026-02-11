@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Muzqa Premium Design - Component Showcase</title>
+    <link rel="stylesheet" href="/styles/muzqa-premium-master.css">
+    <style>
+        .showcase-section {
+            margin-bottom: 4rem;
+            padding: 2rem;
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .showcase-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--muzqa-gray-900);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--muzqa-gray-200);
+        }
+        .component-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body style="background: var(--muzqa-gray-50); padding: 2rem;">
+    <div class="muzqa-container muzqa-container-xl">
+        <h1 class="muzqa-heading-display" style="text-align: center; margin-bottom: 3rem;">
+            Muzqa Premium Design Components
+        </h1>
+
+        <!-- BUTTONS -->
+        <div class="showcase-section">
+            <h2 class="showcase-title">🔘 Buttons</h2>
+            
+            <h3 class="muzqa-heading-h3">Button Variants</h3>
+            <div class="component-row">
+                <button class="muzqa-btn muzqa-btn-primary">Primary</button>
+                <button class="muzqa-btn muzqa-btn-secondary">Secondary</button>
+                <button class="muzqa-btn muzqa-btn-success">Success</button>
+                <button class="muzqa-btn muzqa-btn-gold">Gold</button>
+                <button class="muzqa-btn muzqa-btn-ghost">Ghost</button>
+            </div>
+
+            <h3 class="muzqa-heading-h3">Button Sizes</h3>
+            <div class="component-row">
+                <button class="muzqa-btn muzqa-btn-primary muzqa-btn-sm">Small</button>
+                <button class="muzqa-btn muzqa-btn-primary">Default</button>
+                <button class="muzqa-btn muzqa-btn-primary muzqa-btn-lg">Large</button>
+            </div>
+        </div>
+
+        <!-- TYPOGRAPHY -->
+        <div class="showcase-section">
+            <h2 class="showcase-title">📝 Typography</h2>
+            
+            <h1 class="muzqa-heading-display">Display Heading</h1>
+            <h1 class="muzqa-heading-h1">Heading H1</h1>
+            <h2 class="muzqa-heading-h2">Heading H2</h2>
+            <h3 class="muzqa-heading-h3">Heading H3</h3>
+            <p class="muzqa-text-lead">Lead paragraph - larger text for emphasis</p>
+            <p class="muzqa-text-body">Body text - standard paragraph content</p>
+            <p class="muzqa-text-small">Small text - supporting information</p>
+            <span class="muzqa-text-caption">Caption Label</span>
+        </div>
+
+        <!-- BADGES -->
+        <div class="showcase-section">
+            <h2 class="showcase-title">🏷️ Badges</h2>
+            <div class="component-row">
+                <span class="muzqa-badge muzqa-badge-primary">Primary</span>
+                <span class="muzqa-badge muzqa-badge-success">Success</span>
+                <span class="muzqa-badge muzqa-badge-warning">Warning</span>
+                <span class="muzqa-badge muzqa-badge-danger">Danger</span>
+                <span class="muzqa-badge muzqa-badge-gold">Premium</span>
+            </div>
+        </div>
+
+        <!-- CARDS -->
+        <div class="showcase-section">
+            <h2 class="showcase-title">🃏 Cards</h2>
+            
+            <div class="muzqa-grid muzqa-grid-cols-3 muzqa-gap-lg">
+                <div class="muzqa-card">
+                    <h3 class="muzqa-heading-h3">Basic Card</h3>
+                    <p class="muzqa-text-body">Simple card with shadow</p>
+                </div>
+                
+                <div class="muzqa-card muzqa-card-hover">
+                    <h3 class="muzqa-heading-h3">Hover Card</h3>
+                    <p class="muzqa-text-body">Lifts on hover</p>
+                </div>
+                
+                <div class="muzqa-card-premium">
+                    <h3 class="muzqa-heading-h3">Premium Card</h3>
+                    <p class="muzqa-text-body">Gradient border effect</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- FORMS -->
+        <div class="showcase-section">
+            <h2 class="showcase-title">📝 Form Elements</h2>
+            
+            <div class="muzqa-grid muzqa-grid-cols-2 muzqa-gap-lg">
+                <div class="muzqa-form-group">
+                    <label class="muzqa-form-label">Text Input</label>
+                    <input type="text" class="muzqa-form-input" placeholder="Enter text...">
+                </div>
+                
+                <div class="muzqa-form-group">
+                    <label class="muzqa-form-label">Select Dropdown</label>
+                    <select class="muzqa-form-input muzqa-form-select">
+                        <option>Option 1</option>
+                        <option>Option 2</option>
+                        <option>Option 3</option>
+                    </select>
+                </div>
+                
+                <div class="muzqa-form-group">
+                    <label class="muzqa-form-label">With Success</label>
+                    <input type="email" class="muzqa-form-input success" value="success@example.com">
+                </div>
+                
+                <div class="muzqa-form-group">
+                    <label class="muzqa-form-label">With Error</label>
+                    <input type="email" class="muzqa-form-input error" value="invalid">
+                    <span class="muzqa-form-error-message">Please enter a valid email</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ANIMATIONS -->
+        <div class="showcase-section">
+            <h2 class="showcase-title">✨ Animations</h2>
+            
+            <h3 class="muzqa-heading-h3">Hover Effects</h3>
+            <div class="muzqa-grid muzqa-grid-cols-4 muzqa-gap-lg">
+                <div class="muzqa-card muzqa-hover-lift" style="padding: 2rem; text-align: center;">
+                    <span class="muzqa-text-body">Lift</span>
+                </div>
+                <div class="muzqa-card muzqa-hover-scale" style="padding: 2rem; text-align: center;">
+                    <span class="muzqa-text-body">Scale</span>
+                </div>
+                <div class="muzqa-card muzqa-hover-glow" style="padding: 2rem; text-align: center;">
+                    <span class="muzqa-text-body">Glow</span>
+                </div>
+                <div class="muzqa-card muzqa-hover-rotate" style="padding: 2rem; text-align: center;">
+                    <span class="muzqa-text-body">Rotate</span>
+                </div>
+            </div>
+
+            <h3 class="muzqa-heading-h3" style="margin-top: 2rem;">Loading States</h3>
+            <div class="component-row">
+                <div class="muzqa-skeleton" style="width: 200px; height: 20px;"></div>
+                <span class="muzqa-animate-pulse">Pulsing Text</span>
+                <span class="muzqa-animate-spin" style="display: inline-block;">⟳</span>
+            </div>
+        </div>
+
+        <!-- PROGRESS -->
+        <div class="showcase-section">
+            <h2 class="showcase-title">📊 Progress Indicators</h2>
+            
+            <h3 class="muzqa-heading-h3">Progress Bar</h3>
+            <div class="muzqa-progress-bar">
+                <div class="muzqa-progress-fill" style="width: 65%;"></div>
+            </div>
+        </div>
+
+        <!-- STAT CARDS -->
+        <div class="showcase-section">
+            <h2 class="showcase-title">📈 Stat Cards</h2>
+            
+            <div class="muzqa-stats-grid">
+                <div class="muzqa-card-stat">
+                    <div class="muzqa-text-caption">Total Users</div>
+                    <div class="muzqa-heading-h2" style="color: var(--muzqa-primary);">1,248</div>
+                    <div class="muzqa-text-small">↑ 12% from last month</div>
+                </div>
+                
+                <div class="muzqa-card-stat" style="border-left-color: var(--muzqa-accent-emerald);">
+                    <div class="muzqa-text-caption">Revenue</div>
+                    <div class="muzqa-heading-h2" style="color: var(--muzqa-accent-emerald);">$45.2K</div>
+                    <div class="muzqa-text-small">↑ 8% from last month</div>
+                </div>
+                
+                <div class="muzqa-card-stat" style="border-left-color: var(--muzqa-accent-gold);">
+                    <div class="muzqa-text-caption">Active Deals</div>
+                    <div class="muzqa-heading-h2" style="color: var(--muzqa-accent-gold);">327</div>
+                    <div class="muzqa-text-small">↓ 3% from last month</div>
+                </div>
+                
+                <div class="muzqa-card-stat" style="border-left-color: var(--muzqa-secondary);">
+                    <div class="muzqa-text-caption">Conversion Rate</div>
+                    <div class="muzqa-heading-h2" style="color: var(--muzqa-secondary);">24.5%</div>
+                    <div class="muzqa-text-small">↑ 4% from last month</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FILTER PILLS -->
+        <div class="showcase-section">
+            <h2 class="showcase-title">💊 Filter Pills</h2>
+            <div class="muzqa-quick-filters">
+                <button class="muzqa-filter-pill active">All</button>
+                <button class="muzqa-filter-pill">🔥 Hot</button>
+                <button class="muzqa-filter-pill">✨ New</button>
+                <button class="muzqa-filter-pill">🍕 Food</button>
+                <button class="muzqa-filter-pill">🛍️ Shopping</button>
+                <button class="muzqa-filter-pill">💆 Wellness</button>
+            </div>
+        </div>
+
+        <!-- PRODUCT CARD -->
+        <div class="showcase-section">
+            <h2 class="showcase-title">🛍️ Product/Shop Card</h2>
+            
+            <div class="muzqa-grid muzqa-grid-cols-3 muzqa-gap-xl">
+                <div class="muzqa-shop-card">
+                    <div class="muzqa-shop-card-banner">
+                        <div class="muzqa-shop-card-image" style="background: var(--muzqa-gradient-primary);"></div>
+                        <div class="muzqa-shop-card-badge hot">HOT 🔥</div>
+                    </div>
+                    <div class="muzqa-shop-card-content">
+                        <div class="muzqa-shop-card-category">Restaurant</div>
+                        <h3 class="muzqa-shop-card-title">Amazing Restaurant</h3>
+                        <p class="muzqa-shop-card-description">
+                            Delicious food with amazing atmosphere and friendly service.
+                        </p>
+                        <div class="muzqa-shop-card-meta">
+                            <div class="muzqa-shop-card-meta-item">
+                                <span>📍 New York, NY</span>
+                            </div>
+                        </div>
+                        <div class="muzqa-shop-card-footer">
+                            <div class="muzqa-shop-card-price">
+                                <span class="muzqa-shop-card-discount">50% OFF</span>
+                            </div>
+                            <button class="muzqa-btn muzqa-btn-primary muzqa-btn-sm">Get Deal</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="muzqa-shop-card">
+                    <div class="muzqa-shop-card-banner">
+                        <div class="muzqa-shop-card-image" style="background: var(--muzqa-gradient-success);"></div>
+                        <div class="muzqa-shop-card-badge new">NEW ✨</div>
+                    </div>
+                    <div class="muzqa-shop-card-content">
+                        <div class="muzqa-shop-card-category">Spa & Wellness</div>
+                        <h3 class="muzqa-shop-card-title">Luxury Spa</h3>
+                        <p class="muzqa-shop-card-description">
+                            Relax and rejuvenate with premium treatments and services.
+                        </p>
+                        <div class="muzqa-shop-card-meta">
+                            <div class="muzqa-shop-card-meta-item">
+                                <span>📍 Los Angeles, CA</span>
+                            </div>
+                        </div>
+                        <div class="muzqa-shop-card-footer">
+                            <div class="muzqa-shop-card-price">
+                                <span class="muzqa-shop-card-discount">40% OFF</span>
+                            </div>
+                            <button class="muzqa-btn muzqa-btn-primary muzqa-btn-sm">Get Deal</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="muzqa-shop-card">
+                    <div class="muzqa-shop-card-banner">
+                        <div class="muzqa-shop-card-image" style="background: var(--muzqa-gradient-gold);"></div>
+                        <div class="muzqa-shop-card-badge" style="background: var(--muzqa-gradient-gold); color: white;">PREMIUM 👑</div>
+                    </div>
+                    <div class="muzqa-shop-card-content">
+                        <div class="muzqa-shop-card-category">Shopping</div>
+                        <h3 class="muzqa-shop-card-title">Designer Boutique</h3>
+                        <p class="muzqa-shop-card-description">
+                            Premium fashion at incredible prices. Limited time only.
+                        </p>
+                        <div class="muzqa-shop-card-meta">
+                            <div class="muzqa-shop-card-meta-item">
+                                <span>📍 Miami, FL</span>
+                            </div>
+                        </div>
+                        <div class="muzqa-shop-card-footer">
+                            <div class="muzqa-shop-card-price">
+                                <span class="muzqa-shop-card-discount">60% OFF</span>
+                            </div>
+                            <button class="muzqa-btn muzqa-btn-gold muzqa-btn-sm">Get Deal</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- COLOR PALETTE -->
+        <div class="showcase-section">
+            <h2 class="showcase-title">🎨 Color Palette</h2>
+            
+            <h3 class="muzqa-heading-h3">Primary Colors</h3>
+            <div class="muzqa-grid muzqa-grid-cols-6 muzqa-gap-sm">
+                <div style="background: var(--muzqa-primary); height: 80px; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600;">Primary</div>
+                <div style="background: var(--muzqa-secondary); height: 80px; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600;">Secondary</div>
+                <div style="background: var(--muzqa-accent-gold); height: 80px; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600;">Gold</div>
+                <div style="background: var(--muzqa-accent-emerald); height: 80px; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600;">Emerald</div>
+                <div style="background: var(--muzqa-accent-rose); height: 80px; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600;">Rose</div>
+                <div style="background: var(--muzqa-accent-sky); height: 80px; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600;">Sky</div>
+            </div>
+
+            <h3 class="muzqa-heading-h3" style="margin-top: 2rem;">Gradients</h3>
+            <div class="muzqa-grid muzqa-grid-cols-4 muzqa-gap-sm">
+                <div style="background: var(--muzqa-gradient-primary); height: 80px; border-radius: 0.5rem;"></div>
+                <div style="background: var(--muzqa-gradient-secondary); height: 80px; border-radius: 0.5rem;"></div>
+                <div style="background: var(--muzqa-gradient-success); height: 80px; border-radius: 0.5rem;"></div>
+                <div style="background: var(--muzqa-gradient-gold); height: 80px; border-radius: 0.5rem;"></div>
+            </div>
+        </div>
+
+        <!-- PAGINATION -->
+        <div class="showcase-section">
+            <h2 class="showcase-title">📄 Pagination</h2>
+            <div class="muzqa-pagination">
+                <button class="muzqa-pagination-btn" disabled>←</button>
+                <button class="muzqa-pagination-btn active">1</button>
+                <button class="muzqa-pagination-btn">2</button>
+                <button class="muzqa-pagination-btn">3</button>
+                <button class="muzqa-pagination-btn">4</button>
+                <button class="muzqa-pagination-btn">5</button>
+                <button class="muzqa-pagination-btn">→</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

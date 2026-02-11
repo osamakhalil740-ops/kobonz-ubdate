@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Muzqa Premium Design - Marketplace Example</title>
+    <link rel="stylesheet" href="/styles/muzqa-premium-master.css">
+</head>
+<body>
+    <!-- PREMIUM NAVIGATION -->
+    <nav class="muzqa-header">
+        <div class="muzqa-header-container">
+            <a href="/" class="muzqa-logo">
+                <div class="muzqa-logo-icon">M</div>
+                <span class="muzqa-logo-text">Muzqa</span>
+            </a>
+            
+            <ul class="muzqa-nav-menu">
+                <li><a href="/" class="muzqa-nav-link">Home</a></li>
+                <li><a href="/marketplace" class="muzqa-nav-link active">Marketplace</a></li>
+                <li><a href="/partners" class="muzqa-nav-link">Partners</a></li>
+                <li><a href="/about" class="muzqa-nav-link">About</a></li>
+            </ul>
+            
+            <div class="muzqa-flex muzqa-items-center muzqa-gap-md">
+                <button class="muzqa-btn muzqa-btn-primary muzqa-btn-sm">Sign In</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- MARKETPLACE HERO -->
+    <section class="muzqa-marketplace-hero">
+        <div class="muzqa-marketplace-hero-content">
+            <h1 class="muzqa-heading-display" style="color: white;">Explore The Marketplace</h1>
+            <p class="muzqa-text-lead" style="color: rgba(255, 255, 255, 0.9);">
+                Discover exclusive deals from verified partners in your area
+            </p>
+        </div>
+    </section>
+
+    <div class="muzqa-container muzqa-container-xl" style="margin-top: -2rem; position: relative; z-index: 10;">
+        <!-- ENHANCED SEARCH BAR -->
+        <div class="muzqa-search-bar">
+            <svg class="muzqa-search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            <input type="search" class="muzqa-search-input" placeholder="Search for deals, stores, or categories...">
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <section class="muzqa-section">
+        <div class="muzqa-container muzqa-container-xl">
+            <div class="muzqa-grid" style="grid-template-columns: 280px 1fr; gap: 2rem;">
+                <!-- SIDEBAR FILTERS -->
+                <aside>
+                    <div class="muzqa-filter-panel">
+                        <div class="muzqa-filter-header">
+                            <h3 class="muzqa-filter-title">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                                </svg>
+                                Filters
+                            </h3>
+                            <button class="muzqa-text-small" style="color: var(--muzqa-primary); cursor: pointer; background: none; border: none; font-weight: 600;">
+                                Clear All
+                            </button>
+                        </div>
+
+                        <div class="muzqa-filter-group">
+                            <label class="muzqa-filter-label">Category</label>
+                            <select class="muzqa-form-input muzqa-form-select">
+                                <option>All Categories</option>
+                                <option>🍕 Restaurants</option>
+                                <option>🛍️ Shopping</option>
+                                <option>💆 Spa & Wellness</option>
+                                <option>🎬 Entertainment</option>
+                                <option>🏋️ Fitness</option>
+                                <option>✈️ Travel</option>
+                            </select>
+                        </div>
+
+                        <div class="muzqa-filter-group">
+                            <label class="muzqa-filter-label">Location</label>
+                            <select class="muzqa-form-input muzqa-form-select">
+                                <option>All Locations</option>
+                                <option>📍 New York, NY</option>
+                                <option>📍 Los Angeles, CA</option>
+                                <option>📍 Chicago, IL</option>
+                                <option>📍 Miami, FL</option>
+                                <option>📍 San Francisco, CA</option>
+                            </select>
+                        </div>
+
+                        <div class="muzqa-filter-group">
+                            <label class="muzqa-filter-label">Discount Range</label>
+                            <select class="muzqa-form-input muzqa-form-select">
+                                <option>Any Discount</option>
+                                <option>10% - 25%</option>
+                                <option>25% - 50%</option>
+                                <option>50% - 75%</option>
+                                <option>75% and above</option>
+                            </select>
+                        </div>
+
+                        <div class="muzqa-filter-group">
+                            <label class="muzqa-filter-label">Deal Type</label>
+                            <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.5rem;">
+                                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                    <input type="checkbox" checked style="width: 18px; height: 18px;">
+                                    <span class="muzqa-text-small">🔥 Hot Deals</span>
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                    <input type="checkbox" style="width: 18px; height: 18px;">
+                                    <span class="muzqa-text-small">✨ New Arrivals</span>
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                    <input type="checkbox" style="width: 18px; height: 18px;">
+                                    <span class="muzqa-text-small">👑 Premium Only</span>
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                    <input type="checkbox" style="width: 18px; height: 18px;">
+                                    <span class="muzqa-text-small">⏰ Ending Soon</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <button class="muzqa-btn muzqa-btn-primary muzqa-btn-block" style="margin-top: 1.5rem;">
+                            Apply Filters
+                        </button>
+                    </div>
+                </aside>
+
+                <!-- MAIN CONTENT AREA -->
+                <main>
+                    <!-- RESULTS HEADER -->
+                    <div class="muzqa-results-header">
+                        <div class="muzqa-results-count">
+                            Found <span class="muzqa-results-count-number">127</span> amazing deals
+                        </div>
+                        <div class="muzqa-sort-dropdown">
+                            <label class="muzqa-sort-label">Sort by:</label>
+                            <select class="muzqa-form-input muzqa-form-select" style="width: auto; padding: 0.5rem 2rem 0.5rem 0.75rem;">
+                                <option>Most Popular</option>
+                                <option>Newest First</option>
+                                <option>Ending Soon</option>
+                                <option>Highest Discount</option>
+                                <option>Price: Low to High</option>
+                                <option>Price: High to Low</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- QUICK FILTERS -->
+                    <div class="muzqa-quick-filters">
+                        <button class="muzqa-filter-pill active">All</button>
+                        <button class="muzqa-filter-pill">🔥 Hot</button>
+                        <button class="muzqa-filter-pill">✨ New</button>
+                        <button class="muzqa-filter-pill">🍕 Food</button>
+                        <button class="muzqa-filter-pill">🛍️ Shopping</button>
+                        <button class="muzqa-filter-pill">💆 Wellness</button>
+                        <button class="muzqa-filter-pill">🎬 Entertainment</button>
+                    </div>
+
+                    <!-- PRODUCT GRID -->
+                    <div class="muzqa-product-grid">
+                        <!-- Product Card 1 -->
+                        <div class="muzqa-shop-card">
+                            <div class="muzqa-shop-card-banner">
+                                <div class="muzqa-shop-card-image" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);"></div>
+                                <div class="muzqa-shop-card-badge hot">HOT 🔥</div>
+                            </div>
+                            <div class="muzqa-shop-card-content">
+                                <div class="muzqa-shop-card-category">Restaurant</div>
+                                <h3 class="muzqa-shop-card-title">Bella Italia Trattoria</h3>
+                                <p class="muzqa-shop-card-description">
+                                    Authentic Italian cuisine with handmade pasta and wood-fired pizzas.
+                                </p>
+                                <div class="muzqa-shop-card-meta">
+                                    <div class="muzqa-shop-card-meta-item">
+                                        <svg class="muzqa-shop-card-meta-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                        </svg>
+                                        <span>Manhattan, NY</span>
+                                    </div>
+                                </div>
+                                <div class="muzqa-shop-card-footer">
+                                    <div class="muzqa-shop-card-price">
+                                        <span class="muzqa-shop-card-discount">55% OFF</span>
+                                    </div>
+                                    <button class="muzqa-btn muzqa-btn-primary muzqa-btn-sm">View Deal</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Product Card 2 -->
+                        <div class="muzqa-shop-card">
+                            <div class="muzqa-shop-card-banner">
+                                <div class="muzqa-shop-card-image" style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);"></div>
+                                <div class="muzqa-shop-card-badge new">NEW ✨</div>
+                            </div>
+                            <div class="muzqa-shop-card-content">
+                                <div class="muzqa-shop-card-category">Spa & Wellness</div>
+                                <h3 class="muzqa-shop-card-title">Zen Harmony Spa</h3>
+                                <p class="muzqa-shop-card-description">
+                                    Luxury spa treatments with aromatherapy and hot stone massage.
+                                </p>
+                                <div class="muzqa-shop-card-meta">
+                                    <div class="muzqa-shop-card-meta-item">
+                                        <svg class="muzqa-shop-card-meta-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                        </svg>
+                                        <span>Beverly Hills, CA</span>
+                                    </div>
+                                </div>
+                                <div class="muzqa-shop-card-footer">
+                                    <div class="muzqa-shop-card-price">
+                                        <span class="muzqa-shop-card-discount">45% OFF</span>
+                                    </div>
+                                    <button class="muzqa-btn muzqa-btn-primary muzqa-btn-sm">View Deal</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Product Card 3 -->
+                        <div class="muzqa-shop-card">
+                            <div class="muzqa-shop-card-banner">
+                                <div class="muzqa-shop-card-image" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);"></div>
+                            </div>
+                            <div class="muzqa-shop-card-content">
+                                <div class="muzqa-shop-card-category">Fitness</div>
+                                <h3 class="muzqa-shop-card-title">FitLife Gym & Studio</h3>
+                                <p class="muzqa-shop-card-description">
+                                    State-of-the-art equipment with personal training included.
+                                </p>
+                                <div class="muzqa-shop-card-meta">
+                                    <div class="muzqa-shop-card-meta-item">
+                                        <svg class="muzqa-shop-card-meta-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                        </svg>
+                                        <span>Chicago, IL</span>
+                                    </div>
+                                </div>
+                                <div class="muzqa-shop-card-footer">
+                                    <div class="muzqa-shop-card-price">
+                                        <span class="muzqa-shop-card-discount">40% OFF</span>
+                                    </div>
+                                    <button class="muzqa-btn muzqa-btn-primary muzqa-btn-sm">View Deal</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Product Card 4 -->
+                        <div class="muzqa-shop-card">
+                            <div class="muzqa-shop-card-banner">
+                                <div class="muzqa-shop-card-image" style="background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);"></div>
+                                <div class="muzqa-shop-card-badge" style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); color: #92400e;">PREMIUM 👑</div>
+                            </div>
+                            <div class="muzqa-shop-card-content">
+                                <div class="muzqa-shop-card-category">Shopping</div>
+                                <h3 class="muzqa-shop-card-title">Luxe Fashion Boutique</h3>
+                                <p class="muzqa-shop-card-description">
+                                    Designer clothing and accessories at unbeatable prices.
+                                </p>
+                                <div class="muzqa-shop-card-meta">
+                                    <div class="muzqa-shop-card-meta-item">
+                                        <svg class="muzqa-shop-card-meta-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                        </svg>
+                                        <span>Miami, FL</span>
+                                    </div>
+                                </div>
+                                <div class="muzqa-shop-card-footer">
+                                    <div class="muzqa-shop-card-price">
+                                        <span class="muzqa-shop-card-discount">65% OFF</span>
+                                    </div>
+                                    <button class="muzqa-btn muzqa-btn-gold muzqa-btn-sm">View Deal</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Product Card 5 -->
+                        <div class="muzqa-shop-card">
+                            <div class="muzqa-shop-card-banner">
+                                <div class="muzqa-shop-card-image" style="background: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%);"></div>
+                            </div>
+                            <div class="muzqa-shop-card-content">
+                                <div class="muzqa-shop-card-category">Entertainment</div>
+                                <h3 class="muzqa-shop-card-title">Starlight Cinema</h3>
+                                <p class="muzqa-shop-card-description">
+                                    Premium movie experience with luxury reclining seats.
+                                </p>
+                                <div class="muzqa-shop-card-meta">
+                                    <div class="muzqa-shop-card-meta-item">
+                                        <svg class="muzqa-shop-card-meta-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                        </svg>
+                                        <span>San Francisco, CA</span>
+                                    </div>
+                                </div>
+                                <div class="muzqa-shop-card-footer">
+                                    <div class="muzqa-shop-card-price">
+                                        <span class="muzqa-shop-card-discount">30% OFF</span>
+                                    </div>
+                                    <button class="muzqa-btn muzqa-btn-primary muzqa-btn-sm">View Deal</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Product Card 6 -->
+                        <div class="muzqa-shop-card">
+                            <div class="muzqa-shop-card-banner">
+                                <div class="muzqa-shop-card-image" style="background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);"></div>
+                                <div class="muzqa-shop-card-badge hot">HOT 🔥</div>
+                            </div>
+                            <div class="muzqa-shop-card-content">
+                                <div class="muzqa-shop-card-category">Restaurant</div>
+                                <h3 class="muzqa-shop-card-title">Sushi Master</h3>
+                                <p class="muzqa-shop-card-description">
+                                    Fresh sushi and sashimi prepared by master chefs daily.
+                                </p>
+                                <div class="muzqa-shop-card-meta">
+                                    <div class="muzqa-shop-card-meta-item">
+                                        <svg class="muzqa-shop-card-meta-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                        </svg>
+                                        <span>Seattle, WA</span>
+                                    </div>
+                                </div>
+                                <div class="muzqa-shop-card-footer">
+                                    <div class="muzqa-shop-card-price">
+                                        <span class="muzqa-shop-card-discount">50% OFF</span>
+                                    </div>
+                                    <button class="muzqa-btn muzqa-btn-primary muzqa-btn-sm">View Deal</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PAGINATION -->
+                    <div class="muzqa-pagination">
+                        <button class="muzqa-pagination-btn" disabled>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                            </svg>
+                        </button>
+                        <button class="muzqa-pagination-btn active">1</button>
+                        <button class="muzqa-pagination-btn">2</button>
+                        <button class="muzqa-pagination-btn">3</button>
+                        <button class="muzqa-pagination-btn">4</button>
+                        <button class="muzqa-pagination-btn">5</button>
+                        <button class="muzqa-pagination-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="muzqa-footer">
+        <div class="muzqa-container muzqa-container-xl">
+            <div class="muzqa-footer-bottom">
+                <p>&copy; 2024 Muzqa. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,778 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User model with role-based access control
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String
+  password  String?  // Hashed password (nullable for OAuth users)
+  role      Role     @default(USER)
+  
+  // OAuth providers
+  provider       String?  // "credentials" | "google" | null
+  providerId     String?  // OAuth provider's user ID
+  providerData   Json?    // Additional OAuth data
+  
+  // Profile information
+  phone     String?
+  avatar    String?
+  
+  // Location information
+  country   String?
+  city      String?
+  district  String?
+  
+  // Account status
+  isActive  Boolean  @default(true)
+  isVerified Boolean @default(false)
+  
+  // Email verification
+  emailVerificationToken   String?   @unique
+  emailVerificationExpires DateTime?
+  
+  // Password reset
+  passwordResetToken       String?   @unique
+  passwordResetExpires     DateTime?
+  
+  // Refresh tokens
+  refreshTokenHash         String?   // Hashed refresh token
+  refreshTokenExpires      DateTime?
+  
+  // Credits system
+  credits   Int      @default(0)
+  
+  // Affiliate system
+  affiliateBalance     Float   @default(0) // Available balance
+  affiliatePending     Float   @default(0) // Pending balance
+  affiliateTotalEarned Float   @default(0) // Lifetime earnings
+  affiliatePayoutEmail String? // Email for payouts
+  
+  // Referral system
+  referralCode String  @unique
+  referredBy   String?
+  referrer     User?   @relation("Referrals", fields: [referredBy], references: [id])
+  referrals    User[]  @relation("Referrals")
+  
+  // Ban management
+  bannedUntil DateTime?
+  banReason   String?
+  
+  // Last login tracking
+  lastLoginAt DateTime?
+  
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  // Relations
+  stores           Store[]
+  coupons          Coupon[]
+  redemptions      Redemption[]
+  affiliateLinks   AffiliateLink[]
+  creditLogs       CreditLog[]
+  creditRequests   CreditRequest[]
+  creditKeys       CreditKey[]
+  accounts         Account[]
+  sessions         Session[]
+  payoutRequests   PayoutRequest[]
+  affiliateEarnings AffiliateEarning[]
+  notifications    Notification[]  // Phase 6: Notifications
+  analyticsSummaries AnalyticsSummary[]  // Phase 6: Analytics
+  
+  @@index([email])
+  @@index([referralCode])
+  @@index([role])
+  @@index([createdAt])
+  @@index([emailVerificationToken])
+  @@index([passwordResetToken])
+  @@map("users")
+}
+
+// NextAuth Account model
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+  @@map("accounts")
+}
+
+// NextAuth Session model
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("sessions")
+}
+
+// Verification Token model
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verification_tokens")
+}
+
+// Role enum
+enum Role {
+  SUPER_ADMIN
+  ADMIN
+  STORE_OWNER
+  AFFILIATE
+  MARKETER
+  USER
+}
+
+// Store/Shop model
+model Store {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  
+  // Search fields
+  searchText  String?  @db.Text // Denormalized search field
+  
+  // Owner information
+  ownerId     String
+  owner       User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  
+  // Category
+  categoryId  String
+  category    Category @relation(fields: [categoryId], references: [id])
+  
+  // Location (denormalized for faster queries)
+  country     String
+  city        String
+  district    String
+  state       String?
+  postalCode  String?
+  
+  // Address
+  addressLine1 String
+  addressLine2 String?
+  
+  // Contact
+  email       String
+  phone       String?
+  website     String?
+  
+  // Store settings
+  isActive    Boolean  @default(true)
+  isVerified  Boolean  @default(false)
+  
+  // Logo/branding
+  logo        String?
+  coverImage  String?
+  
+  // Timestamps
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  // Relations
+  coupons     Coupon[]
+  
+  @@index([ownerId])
+  @@index([categoryId])
+  @@index([country, city, district])
+  @@index([isActive])
+  @@index([isVerified])
+  @@index([country])
+  @@index([city])
+  @@map("stores")
+}
+
+// Category model
+model Category {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  slug        String   @unique
+  description String?
+  icon        String?
+  
+  // Hierarchy support (for future subcategories)
+  parentId    String?
+  parent      Category?  @relation("CategoryHierarchy", fields: [parentId], references: [id])
+  children    Category[] @relation("CategoryHierarchy")
+  
+  // Display order
+  order       Int      @default(0)
+  isActive    Boolean  @default(true)
+  
+  // Timestamps
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  // Relations
+  stores      Store[]
+  coupons     Coupon[]
+  
+  @@index([slug])
+  @@index([isActive])
+  @@map("categories")
+}
+
+// Location model - hierarchical structure
+model Location {
+  id          String   @id @default(cuid())
+  
+  // Location details
+  type        LocationType
+  name        String
+  code        String?  // ISO code for countries, postal code for districts
+  
+  // Hierarchy
+  parentId    String?
+  parent      Location?  @relation("LocationHierarchy", fields: [parentId], references: [id])
+  children    Location[] @relation("LocationHierarchy")
+  
+  // Coordinates (optional, for mapping features)
+  latitude    Float?
+  longitude   Float?
+  
+  // Metadata
+  isActive    Boolean  @default(true)
+  population  Int?
+  
+  // Timestamps
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@unique([type, name, parentId])
+  @@index([type])
+  @@index([parentId])
+  @@index([code])
+  @@map("locations")
+}
+
+enum LocationType {
+  COUNTRY
+  STATE
+  CITY
+  DISTRICT
+}
+
+// Coupon model
+model Coupon {
+  id          String   @id @default(cuid())
+  
+  // Basic information
+  title       String
+  description String
+  code        String?  // Optional coupon code
+  
+  // Search fields (for full-text search)
+  searchText  String?  @db.Text // Denormalized search field
+  
+  // Owner information
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Store information (optional - some coupons might not be store-specific)
+  storeId     String?
+  store       Store?   @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  
+  // Category
+  categoryId  String
+  category    Category @relation(fields: [categoryId], references: [id])
+  
+  // Discount details
+  discountType  DiscountType
+  discountValue Float
+  
+  // Validity
+  validityType  ValidityType
+  expiryDate    DateTime?
+  validityDays  Int?
+  
+  // Usage limits
+  maxUses     Int
+  usesLeft    Int
+  usesCount   Int      @default(0)
+  
+  // Tracking
+  clicks      Int      @default(0)
+  views       Int      @default(0)
+  
+  // Location targeting
+  isGlobal    Boolean  @default(false)
+  countries   String[] // Array of country codes
+  cities      String[] // Array of city names
+  districts   String[] // Array of district names
+  
+  // Rewards
+  affiliateCommission    Float @default(0)
+  customerRewardPoints   Float @default(0)
+  creationCost           Float @default(0)
+  
+  // Status
+  status      CouponStatus @default(PENDING)
+  isActive    Boolean  @default(true)
+  isApproved  Boolean  @default(false)
+  
+  // Timestamps
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  // Relations
+  redemptions      Redemption[]
+  affiliateLinks   AffiliateLink[]
+  
+  @@index([userId])
+  @@index([storeId])
+  @@index([categoryId])
+  @@index([isActive, isApproved])
+  @@index([expiryDate])
+  @@index([createdAt])
+  @@index([status])
+  @@index([discountType])
+  @@index([countries])
+  @@index([cities])
+  @@map("coupons")
+}
+
+enum DiscountType {
+  PERCENTAGE
+  FIXED
+  BUY_ONE_GET_ONE
+  FREE_SHIPPING
+}
+
+enum ValidityType {
+  EXPIRY_DATE
+  DAYS
+  UNLIMITED
+}
+
+// Redemption tracking
+model Redemption {
+  id          String   @id @default(cuid())
+  
+  // Coupon information
+  couponId    String
+  coupon      Coupon   @relation(fields: [couponId], references: [id], onDelete: Cascade)
+  
+  // User who redeemed
+  userId      String?
+  user        User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  
+  // Affiliate tracking
+  affiliateLinkId String?
+  affiliateLink   AffiliateLink? @relation(fields: [affiliateLinkId], references: [id])
+  
+  // Rewards distributed
+  affiliateCommission    Float @default(0)
+  customerRewardPoints   Float @default(0)
+  
+  // Metadata
+  ipAddress   String?
+  userAgent   String?
+  
+  // Timestamps
+  redeemedAt  DateTime @default(now())
+  
+  @@index([couponId])
+  @@index([userId])
+  @@index([affiliateLinkId])
+  @@index([redeemedAt])
+  @@map("redemptions")
+  
+  // Relations
+  affiliateEarning AffiliateEarning?
+}
+
+// Affiliate link tracking
+model AffiliateLink {
+  id          String   @id @default(cuid())
+  
+  // Affiliate information
+  affiliateId String
+  affiliate   User     @relation(fields: [affiliateId], references: [id], onDelete: Cascade)
+  
+  // Coupon information
+  couponId    String
+  coupon      Coupon   @relation(fields: [couponId], references: [id], onDelete: Cascade)
+  
+  // Unique tracking code
+  trackingCode String  @unique
+  
+  // Statistics
+  clicks      Int      @default(0)
+  conversions Int      @default(0)
+  
+  // Status
+  isActive    Boolean  @default(true)
+  
+  // Timestamps
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  // Relations
+  redemptions       Redemption[]
+  affiliateEarnings AffiliateEarning[]
+  
+  @@unique([affiliateId, couponId])
+  @@index([trackingCode])
+  @@index([affiliateId])
+  @@index([couponId])
+  @@index([isActive])
+  @@index([createdAt])
+  @@map("affiliate_links")
+}
+
+// Credit management
+model CreditLog {
+  id          String   @id @default(cuid())
+  
+  // User information
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Transaction details
+  type        CreditLogType
+  amount      Int      // Positive for credit, negative for debit
+  balance     Int      // Balance after transaction
+  
+  // Description
+  description String?
+  metadata    Json?    // Additional data (coupon ID, referral ID, etc.)
+  
+  // Timestamps
+  createdAt   DateTime @default(now())
+  
+  @@index([userId])
+  @@index([type])
+  @@index([createdAt])
+  @@map("credit_logs")
+}
+
+enum CreditLogType {
+  SIGNUP_BONUS
+  REFERRAL_BONUS
+  AFFILIATE_COMMISSION
+  CUSTOMER_REWARD
+  COUPON_CREATION
+  ADMIN_GRANT
+  CREDIT_PURCHASE
+  MANUAL_ADJUSTMENT
+}
+
+// Credit request system
+model CreditRequest {
+  id              String   @id @default(cuid())
+  
+  // Requester information
+  userId          String
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Request details
+  requestedAmount Int
+  message         String
+  
+  // Admin response
+  status          CreditRequestStatus @default(PENDING)
+  adminResponse   String?
+  processedBy     String?  // Admin user ID
+  
+  // Timestamps
+  requestedAt     DateTime @default(now())
+  processedAt     DateTime?
+  
+  // Relations
+  creditKeys      CreditKey[]
+  
+  @@index([userId])
+  @@index([status])
+  @@index([requestedAt])
+  @@map("credit_requests")
+}
+
+enum CreditRequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  KEY_GENERATED
+}
+
+// Payout request status
+enum PayoutStatus {
+  PENDING
+  APPROVED
+  PROCESSING
+  COMPLETED
+  REJECTED
+}
+
+// Affiliate earning status
+enum EarningStatus {
+  PENDING       // Waiting for confirmation (30 days)
+  AVAILABLE     // Ready for payout
+  PAID          // Already paid out
+  CANCELLED     // Refund/cancellation
+}
+
+// Coupon status lifecycle
+enum CouponStatus {
+  PENDING    // Waiting for admin approval
+  APPROVED   // Approved by admin
+  ACTIVE     // Currently active and redeemable
+  EXPIRED    // Past expiry date
+  REJECTED   // Rejected by admin
+  INACTIVE   // Manually deactivated
+}
+
+// Credit activation keys
+model CreditKey {
+  id              String   @id @default(cuid())
+  
+  // Key details
+  keyCode         String   @unique
+  creditAmount    Int
+  description     String?
+  
+  // Request link (optional)
+  requestId       String?
+  request         CreditRequest? @relation(fields: [requestId], references: [id])
+  
+  // User assignment
+  userId          String?
+  user            User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  
+  // Usage tracking
+  isUsed          Boolean  @default(false)
+  usedAt          DateTime?
+  
+  // Creator information
+  createdBy       String   // Admin user ID
+  
+  // Expiry
+  expiresAt       DateTime
+  
+  // Timestamps
+  createdAt       DateTime @default(now())
+  
+  @@index([keyCode])
+  @@index([userId])
+  @@index([isUsed])
+  @@index([expiresAt])
+  @@map("credit_keys")
+}
+
+// Payout Request Model
+model PayoutRequest {
+  id          String   @id @default(cuid())
+  
+  // Affiliate information
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Payout details
+  amount      Float
+  status      PayoutStatus @default(PENDING)
+  method      String?  // PayPal, Bank Transfer, etc.
+  
+  // Contact/account info
+  payoutEmail String
+  payoutNotes String?  @db.Text
+  
+  // Admin response
+  adminNotes  String?  @db.Text
+  processedBy String?  // Admin user ID
+  processedAt DateTime?
+  
+  // Timestamps
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@index([userId])
+  @@index([status])
+  @@index([createdAt])
+  @@map("payout_requests")
+}
+
+// Affiliate Earning Model (detailed earnings log)
+model AffiliateEarning {
+  id            String   @id @default(cuid())
+  
+  // Affiliate information
+  affiliateId   String
+  affiliate     User     @relation(fields: [affiliateId], references: [id], onDelete: Cascade)
+  
+  // Source information
+  couponId      String
+  coupon        Coupon   @relation(fields: [couponId], references: [id], onDelete: Cascade)
+  
+  redemptionId  String   @unique
+  redemption    Redemption @relation(fields: [redemptionId], references: [id], onDelete: Cascade)
+  
+  // Earning details
+  commission    Float
+  status        EarningStatus @default(PENDING)
+  
+  // Payment tracking
+  payoutRequestId String?
+  paidAt          DateTime?
+  
+  // Timestamps
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  @@index([affiliateId])
+  @@index([couponId])
+  @@index([status])
+  @@index([createdAt])
+  @@map("affiliate_earnings")
+}
+
+// ============================================
+// PHASE 6: ANALYTICS & NOTIFICATIONS MODELS
+// ============================================
+
+// In-app Notification Model
+model Notification {
+  id          String   @id @default(cuid())
+  
+  // Recipient information
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Notification details
+  type        NotificationType
+  title       String
+  message     String   @db.Text
+  
+  // Optional metadata (JSON for flexibility)
+  metadata    Json?    // Links, action buttons, etc.
+  
+  // Status
+  isRead      Boolean  @default(false)
+  readAt      DateTime?
+  
+  // Priority (for sorting/filtering)
+  priority    NotificationPriority @default(NORMAL)
+  
+  // Timestamps
+  createdAt   DateTime @default(now())
+  expiresAt   DateTime? // Optional expiry for time-sensitive notifications
+  
+  @@index([userId, isRead])
+  @@index([userId, createdAt])
+  @@index([type])
+  @@index([priority])
+  @@index([createdAt])
+  @@map("notifications")
+}
+
+enum NotificationType {
+  // Admin notifications
+  NEW_COUPON_PENDING      // New coupon awaiting approval
+  NEW_STORE_PENDING       // New store awaiting approval
+  PAYOUT_REQUEST          // Affiliate payout request
+  
+  // Store owner notifications
+  COUPON_APPROVED         // Your coupon was approved
+  COUPON_REJECTED         // Your coupon was rejected
+  STORE_APPROVED          // Your store was approved
+  STORE_REJECTED          // Your store was rejected
+  COUPON_EXPIRING_SOON    // Your coupon expires in 7 days
+  LOW_COUPON_STOCK        // Coupon uses running low
+  
+  // Affiliate notifications
+  NEW_COMMISSION          // New commission earned
+  COMMISSION_READY        // Commission ready for payout
+  PAYOUT_APPROVED         // Payout approved
+  PAYOUT_COMPLETED        // Payout completed
+  
+  // User notifications
+  WELCOME                 // Welcome message
+  COUPON_REDEEMED         // Coupon successfully redeemed
+  CREDITS_RECEIVED        // Credits added to account
+  CREDITS_DEDUCTED        // Credits deducted
+  
+  // System notifications
+  SYSTEM_ANNOUNCEMENT     // Platform announcements
+  MAINTENANCE             // Scheduled maintenance
+}
+
+enum NotificationPriority {
+  LOW
+  NORMAL
+  HIGH
+  URGENT
+}
+
+// Analytics Summary Model (aggregated data from Redis)
+model AnalyticsSummary {
+  id          String   @id @default(cuid())
+  
+  // Resource information (polymorphic)
+  resourceType String  // "coupon", "store", "user", "affiliate_link"
+  resourceId   String
+  
+  // User reference (for user-specific analytics)
+  userId      String?
+  user        User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Time period
+  period      AnalyticsPeriod
+  periodStart DateTime
+  periodEnd   DateTime
+  
+  // Metrics (all nullable for flexibility)
+  views       Int?     @default(0)
+  clicks      Int?     @default(0)
+  copies      Int?     @default(0)
+  redemptions Int?     @default(0)
+  conversions Int?     @default(0)
+  revenue     Float?   @default(0)
+  
+  // Additional metrics (JSON for extensibility)
+  metadata    Json?
+  
+  // Timestamps
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@unique([resourceType, resourceId, period, periodStart])
+  @@index([resourceType, resourceId])
+  @@index([userId])
+  @@index([period, periodStart])
+  @@index([createdAt])
+  @@map("analytics_summaries")
+}
+
+enum AnalyticsPeriod {
+  HOURLY
+  DAILY
+  WEEKLY
+  MONTHLY
+  YEARLY
+}

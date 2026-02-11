@@ -1,0 +1,47 @@
+# Phase 9: Neon Database Branching Configuration
+# Learn more: https://neon.tech/docs/guides/branching
+
+# Main production database
+main:
+  database: kobonz
+  branch: main
+  connection_pooling: true
+  auto_suspend_compute: true
+  compute_size: small
+  min_compute_units: 0.25
+  max_compute_units: 2
+
+# Staging environment (branch from main)
+staging:
+  parent_branch: main
+  database: kobonz
+  branch: staging
+  connection_pooling: true
+  auto_suspend_compute: true
+  compute_size: small
+  min_compute_units: 0.25
+  max_compute_units: 1
+
+# Preview branches (created automatically for PRs)
+preview:
+  parent_branch: staging
+  database: kobonz
+  branch: preview-${PR_NUMBER}
+  connection_pooling: true
+  auto_suspend_compute: true
+  compute_size: small
+  min_compute_units: 0.25
+  max_compute_units: 0.5
+  auto_delete: true
+  ttl: 7d  # Auto-delete after 7 days
+
+# Development branch
+development:
+  parent_branch: main
+  database: kobonz
+  branch: develop
+  connection_pooling: true
+  auto_suspend_compute: true
+  compute_size: small
+  min_compute_units: 0.25
+  max_compute_units: 0.5

@@ -1,0 +1,360 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="theme-color" content="#bf0000" />
+    <title>Kobonz - Coupon Management Platform</title>
+    <meta name="description" content="Kobonz.site - A comprehensive coupon management platform for merchants and marketers. Create, share, and track discount coupons." />
+    <meta name="keywords" content="coupons, discounts, merchants, marketplace, kobonz" />
+    <meta property="og:title" content="Kobonz - Coupon Management Platform" />
+    <meta property="og:description" content="Create, share, and track discount coupons with Kobonz" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Kobonz" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Kobonz - Coupon Management Platform" />
+    <link rel="canonical" href="https://kobonz.site" />
+    
+    <!-- DNS Prefetch & Preconnect for faster external resources -->
+    <link rel="dns-prefetch" href="https://cdn.tailwindcss.com" />
+    <link rel="preconnect" href="https://cdn.tailwindcss.com" crossorigin />
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="dns-prefetch" href="https://firebasestorage.googleapis.com" />
+    
+    <!-- Preload critical assets for faster LCP -->
+    <link rel="preload" href="/favicon.svg" as="image" type="image/svg+xml" />
+    <link rel="preload" href="/index.css" as="style" />
+    
+    <!-- Preload critical fonts to avoid FOIT/FOUT -->
+    <link rel="preload" href="https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2" as="font" type="font/woff2" crossorigin />
+    
+    <!-- Load fonts stylesheet async -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" media="print" onload="this.media='all'" />
+    
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+    
+    <!-- Inline Critical CSS for instant rendering -->
+    <style>
+      /* Critical Tailwind CSS - Inline for instant render */
+      *,::before,::after{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}
+      ::before,::after{--tw-content:''}
+      html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif;font-feature-settings:normal;font-variation-settings:normal}
+      body{margin:0;line-height:inherit}
+      hr{height:0;color:inherit;border-top-width:1px}
+      abbr:where([title]){text-decoration:underline dotted}
+      h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}
+      a{color:inherit;text-decoration:inherit}
+      b,strong{font-weight:bolder}
+      code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;font-size:1em}
+      small{font-size:80%}
+      sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}
+      sub{bottom:-0.25em}
+      sup{top:-0.5em}
+      table{text-indent:0;border-color:inherit;border-collapse:collapse}
+      button,input,optgroup,select,textarea{font-family:inherit;font-size:100%;font-weight:inherit;line-height:inherit;color:inherit;margin:0;padding:0}
+      button,select{text-transform:none}
+      button,[type='button'],[type='reset'],[type='submit']{-webkit-appearance:button;background-color:transparent;background-image:none}
+      :-moz-focusring{outline:auto}
+      :-moz-ui-invalid{box-shadow:none}
+      progress{vertical-align:baseline}
+      ::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}
+      [type='search']{-webkit-appearance:textfield;outline-offset:-2px}
+      ::-webkit-search-decoration{-webkit-appearance:none}
+      ::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}
+      summary{display:list-item}
+      blockquote,dl,dd,h1,h2,h3,h4,h5,h6,hr,figure,p,pre{margin:0}
+      fieldset{margin:0;padding:0}
+      legend{padding:0}
+      ol,ul,menu{list-style:none;margin:0;padding:0}
+      textarea{resize:vertical}
+      input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}
+      button,[role="button"]{cursor:pointer}
+      :disabled{cursor:default}
+      img,svg,video,canvas,audio,iframe,embed,object{display:block;vertical-align:middle}
+      img,video{max-width:100%;height:auto}
+      [hidden]{display:none}
+      
+      /* Essential layout utilities */
+      .flex{display:flex}
+      .block{display:block}
+      .inline-block{display:inline-block}
+      .hidden{display:none}
+      .w-full{width:100%}
+      .h-full{height:100%}
+      .min-h-screen{min-height:100vh}
+      .items-center{align-items:center}
+      .justify-center{justify-content:center}
+      .flex-col{flex-direction:column}
+      .gap-2{gap:0.5rem}
+      .gap-4{gap:1rem}
+      .p-4{padding:1rem}
+      .px-4{padding-left:1rem;padding-right:1rem}
+      .py-2{padding-top:0.5rem;padding-bottom:0.5rem}
+      .text-center{text-align:center}
+      .font-bold{font-weight:700}
+      .text-xl{font-size:1.25rem;line-height:1.75rem}
+      .text-2xl{font-size:1.5rem;line-height:2rem}
+      .text-gray-600{color:rgb(75 85 99)}
+      .text-white{color:rgb(255 255 255)}
+      .bg-white{background-color:rgb(255 255 255)}
+      .bg-gray-100{background-color:rgb(243 244 246)}
+      .bg-primary{background-color:#bf0000}
+      .text-primary{color:#bf0000}
+      .rounded{border-radius:0.25rem}
+      .rounded-lg{border-radius:0.5rem}
+      .shadow{box-shadow:0 1px 3px 0 rgb(0 0 0 / 0.1)}
+      .shadow-lg{box-shadow:0 10px 15px -3px rgb(0 0 0 / 0.1)}
+      
+      /* Loading state */
+      #root{min-height:100vh;display:flex;flex-direction:column}
+      .loading{display:flex;align-items:center;justify-content:center;min-height:100vh}
+      
+      /* Mobile optimizations - reduce animations and heavy effects */
+      @media (max-width: 768px) {
+        *{-webkit-tap-highlight-color:transparent}
+        body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+        .shadow-lg{box-shadow:0 4px 6px -1px rgb(0 0 0 / 0.1)}
+        img{image-rendering:-webkit-optimize-contrast}
+        /* Disable expensive animations on mobile */
+        *,*::before,*::after{animation-duration:0.01ms!important;animation-iteration-count:1!important;transition-duration:0.01ms!important}
+        /* Force GPU acceleration for critical elements */
+        .homepage-hero,.homepage-path-card{transform:translateZ(0);will-change:auto}
+      }
+      
+      /* Optimize font loading */
+      @font-face{font-family:'Inter';font-style:normal;font-weight:400;font-display:swap;src:local('Inter'),url(https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2) format('woff2')}
+    </style>
+    
+    <!-- Load Tailwind CDN - Fast for refresh, delayed for first visit -->
+    <script>
+      (function() {
+        var tailwindLoaded = false;
+        var loadTailwind = function() {
+          if (tailwindLoaded) return;
+          tailwindLoaded = true;
+          
+          var script = document.createElement('script');
+          script.src = 'https://cdn.tailwindcss.com';
+          script.async = true;
+          document.head.appendChild(script);
+          
+          script.onload = function() {
+            if (window.tailwind) {
+              tailwind.config = {
+                theme: {
+                  extend: {
+                    colors: {
+                      primary: {
+                        DEFAULT: '#bf0000',
+                        dark: '#9a0000',
+                        light: '#ff1a1a',
+                      },
+                      success: '#16a34a',
+                      warning: '#ea580c',
+                      error: '#dc2626',
+                      info: '#2563eb',
+                    }
+                  }
+                }
+              };
+            }
+            // Mark as visited for next refresh
+            try {
+              localStorage.setItem('kobonz_visited', 'true');
+            } catch(e) {}
+          };
+        };
+        
+        // Check if this is a repeat visit
+        var isRepeatVisit = false;
+        try {
+          isRepeatVisit = localStorage.getItem('kobonz_visited') === 'true';
+        } catch(e) {}
+        
+        // Fast load for repeat visits, delayed for first visit
+        if (isRepeatVisit) {
+          // Instant load for repeat visits (refresh)
+          loadTailwind();
+        } else {
+          // Delay for first visit to optimize LCP
+          if ('PerformanceObserver' in window) {
+            try {
+              var observer = new PerformanceObserver(function(list) {
+                setTimeout(loadTailwind, 300);
+                observer.disconnect();
+              });
+              observer.observe({ entryTypes: ['largest-contentful-paint'] });
+              setTimeout(loadTailwind, 2000);
+            } catch (e) {
+              if ('requestIdleCallback' in window) {
+                requestIdleCallback(loadTailwind, { timeout: 2000 });
+              } else {
+                setTimeout(loadTailwind, 1500);
+              }
+            }
+          } else {
+            if ('requestIdleCallback' in window) {
+              requestIdleCallback(loadTailwind, { timeout: 2000 });
+            } else {
+              setTimeout(loadTailwind, 1500);
+            }
+          }
+        }
+      })();
+    </script>
+    
+    <!-- Critical CSS loaded immediately -->
+    <link rel="stylesheet" href="/index.css">
+    
+    <!-- Non-critical CSS loaded with low priority for mobile optimization -->
+    <!-- Only load homepage CSS on homepage, defer all others -->
+    <script>
+      (function() {
+        var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
+        var isHomePage = window.location.hash === '' || window.location.hash === '#/' || window.location.hash === '#';
+        
+        function loadCSS(href) {
+          var link = document.createElement('link');
+          link.rel = 'stylesheet';
+          link.href = href;
+          document.head.appendChild(link);
+        }
+        
+        // Delay CSS loading on mobile for better LCP
+        var delay = isMobile ? 800 : 0;
+        
+        setTimeout(function() {
+          if (isHomePage) {
+            loadCSS('/homepage-premium.css');
+          }
+          loadCSS('/visual-enhancements.css');
+          loadCSS('/ux-enhancements.css');
+          
+          // Load these only when needed (after idle)
+          if ('requestIdleCallback' in window) {
+            requestIdleCallback(function() {
+              loadCSS('/marketplace-premium.css');
+              loadCSS('/dashboard-charts.css');
+              loadCSS('/interactive-features.css');
+              loadCSS('/performance-optimizations.css');
+            }, { timeout: 3000 });
+          } else {
+            setTimeout(function() {
+              loadCSS('/marketplace-premium.css');
+              loadCSS('/dashboard-charts.css');
+              loadCSS('/interactive-features.css');
+              loadCSS('/performance-optimizations.css');
+            }, 2000);
+          }
+        }, delay);
+      })();
+    </script>
+    
+    <!-- Fallback for browsers without JavaScript -->
+    <noscript>
+      <link rel="stylesheet" href="/marketplace-premium.css">
+      <link rel="stylesheet" href="/homepage-premium.css">
+      <link rel="stylesheet" href="/visual-enhancements.css">
+      <link rel="stylesheet" href="/ux-enhancements.css">
+      <link rel="stylesheet" href="/dashboard-charts.css">
+      <link rel="stylesheet" href="/interactive-features.css">
+      <link rel="stylesheet" href="/performance-optimizations.css">
+    </noscript>
+</head>
+  <body>
+    <!-- Disable animations initially for better LCP (first visit only) -->
+    <script>
+      (function() {
+        // Check if repeat visit
+        var isRepeatVisit = false;
+        try {
+          isRepeatVisit = localStorage.getItem('kobonz_visited') === 'true';
+        } catch(e) {}
+        
+        if (!isRepeatVisit) {
+          // First visit: disable animations for better LCP
+          document.documentElement.classList.add('no-animations');
+          window.addEventListener('load', function() {
+            setTimeout(function() {
+              document.documentElement.classList.remove('no-animations');
+              document.documentElement.classList.add('animations-loaded');
+            }, 800);
+          });
+        } else {
+          // Repeat visit: enable animations immediately
+          document.documentElement.classList.add('animations-loaded');
+        }
+      })();
+    </script>
+    <div id="root"></div>
+    <!-- Performance observer for monitoring metrics - loaded after main app -->
+    <script>
+      // Load performance observer after page is interactive
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(function() {
+          var script = document.createElement('script');
+          script.src = '/performance-observer.js';
+          script.async = true;
+          document.body.appendChild(script);
+        }, { timeout: 3000 });
+      } else {
+        setTimeout(function() {
+          var script = document.createElement('script');
+          script.src = '/performance-observer.js';
+          script.async = true;
+          document.body.appendChild(script);
+        }, 2000);
+      }
+    </script>
+    <script type="module" src="/index.tsx"></script>
+    <script>
+      // Register Service Worker during idle time to reduce TBT
+      if ('serviceWorker' in navigator) {
+        // Use requestIdleCallback to avoid blocking main thread
+        var registerSW = function() {
+          // Unregister old service workers first
+          navigator.serviceWorker.getRegistrations().then(function(registrations) {
+            registrations.forEach(function(registration) {
+              if (registration.active && registration.active.scriptURL.includes('service-worker.js')) {
+                registration.unregister().then(function() {
+                  // Old service worker unregistered
+                });
+              }
+            });
+          }).catch(function() {});
+          
+          // Register new service worker
+          navigator.serviceWorker.register('/service-worker.js', {
+            updateViaCache: 'none'
+          }).then(function(registration) {
+            // SW registered successfully
+            // Check for updates every 60 seconds (reduced frequency)
+            setInterval(function() {
+              registration.update();
+            }, 60000);
+          }).catch(function(error) {
+            // SW registration failed
+          });
+        };
+        
+        // Register during idle time or after load
+        if ('requestIdleCallback' in window) {
+          requestIdleCallback(registerSW, { timeout: 3000 });
+        } else {
+          window.addEventListener('load', function() {
+            setTimeout(registerSW, 2000);
+          });
+        }
+      }
+    </script>
+  </body>
+</html>
