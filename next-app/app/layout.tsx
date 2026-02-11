@@ -6,8 +6,16 @@ import { Providers } from "./providers";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Kobonz Next - Coupon Marketplace Platform",
+  title: "Kobonz - Coupon Marketplace Platform",
   description: "Production-ready coupon marketplace built with Next.js, Prisma, and PostgreSQL",
+  icons: {
+    icon: [
+      { url: '/favicon.ico' },
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+    ],
+    apple: '/apple-touch-icon.png',
+  },
+  manifest: '/manifest.json',
 };
 
 export default function RootLayout({
