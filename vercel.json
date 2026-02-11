@@ -1,9 +1,10 @@
 {
-  "buildCommand": "cd next-app && prisma generate && npm run build",
-  "devCommand": "cd next-app && npm run dev",
-  "installCommand": "cd next-app && npm install",
-  "outputDirectory": "next-app/.next",
+  "buildCommand": "prisma generate && npm run build",
+  "devCommand": "npm run dev",
+  "installCommand": "npm install",
+  "outputDirectory": ".next",
   "framework": "nextjs",
+  "rootDirectory": "next-app",
   "regions": ["iad1"],
   "env": {
     "NEXT_PUBLIC_APP_URL": "@app_url",

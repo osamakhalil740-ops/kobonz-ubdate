@@ -1,0 +1,33 @@
+# Ignore root Vite/React app files
+/index.html
+/index.tsx
+/App.tsx
+/vite.config.ts
+/index.css
+/index-old-backup.css
+
+# Ignore root directories that are not part of Next.js app
+/components
+/config
+/context
+/examples
+/firebase
+/hooks
+/locales
+/pages
+/public
+/scripts
+/services
+/types
+/utils
+
+# Keep only next-app directory for Vercel
+# Everything else is ignored
+
+# Standard ignores
+node_modules/
+.env*.local
+.git/
+.vercel/
+dist/
+*.log
