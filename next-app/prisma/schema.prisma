@@ -343,8 +343,9 @@ model Coupon {
   updatedAt   DateTime @updatedAt
   
   // Relations
-  redemptions      Redemption[]
-  affiliateLinks   AffiliateLink[]
+  redemptions       Redemption[]
+  affiliateLinks    AffiliateLink[]
+  affiliateEarnings AffiliateEarning[]
   
   @@index([userId])
   @@index([storeId])
@@ -632,6 +633,10 @@ model AffiliateEarning {
   
   redemptionId  String   @unique
   redemption    Redemption @relation(fields: [redemptionId], references: [id], onDelete: Cascade)
+  
+  // Affiliate link (optional)
+  affiliateLinkId String?
+  affiliateLink   AffiliateLink? @relation(fields: [affiliateLinkId], references: [id], onDelete: SetNull)
   
   // Earning details
   commission    Float
