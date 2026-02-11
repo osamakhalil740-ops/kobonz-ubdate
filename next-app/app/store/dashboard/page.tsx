@@ -1,7 +1,7 @@
 import { getCurrentUser } from "@/lib/auth-helpers"
 import { prisma } from "@/lib/prisma"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Store, Ticket, TrendingUp, Eye } from "lucide-react"
+import { Store, Ticket, TrendingUp, Eye, BarChart3 } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 
